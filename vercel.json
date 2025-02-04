@@ -1,0 +1,8 @@
+{
+    "build": {
+      "env": {
+        "NEXT_PUBLIC_API_URL": "https://task-management-m43tmtqzm-krishnan05s-projects.vercel.app/"
+      }
+    }
+  }
+  
