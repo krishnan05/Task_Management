@@ -89,8 +89,10 @@ if (edit) {
   setRecurrence(edit.recurrence ?? ""); // Default to an empty string if null
 
   // Ensure we are using the date format for input fields
-  setStartDate(formatDateForInput(edit.startdate ?? new Date())); // Default to today if null
-  setEndDate(formatDateForInput(edit.enddate ?? new Date())); // Default to today if null
+  const defaultDate = new Date();
+  const dDate = defaultDate.toISOString().split("T")[0];
+  setStartDate(formatDateForInput(edit.startDate ?? dDate)); // Default to today if null
+  setEndDate(formatDateForInput(edit.endDate ?? new Date())); // Default to today if null
 }
 
   }, [edit]);

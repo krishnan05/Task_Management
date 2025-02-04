@@ -31,8 +31,6 @@ export async function GET(req: NextRequest) {
       })
       .from(tasks)
       .innerJoin(users, eq(tasks.userId, user[0].id));
-
-    console.log(allTasks);
     return NextResponse.json(allTasks, { status: 200 });
   } catch (error) {
     console.error("Error fetching tasks:", error);

@@ -5,13 +5,13 @@ import "./globals.css";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
-  weight: "100 900",
+  display: "swap", // Ensures better rendering while loading
 });
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
-  weight: "100 900",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,10 +27,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 text-gray-900`}
+        className="antialiased bg-gray-100 text-gray-900 font-sans"
+        style={{
+          fontFamily: "var(--font-geist-sans), sans-serif",
+        }}
       >
         <div className="flex flex-col min-h-screen">
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow flex items-center justify-center">
+            <div className="w-full max-w-3xl">{children}</div>
+          </main>
         </div>
       </body>
     </html>

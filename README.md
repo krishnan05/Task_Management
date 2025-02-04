@@ -31,14 +31,14 @@ A form component to handle both task creation and updates. This form includes fi
 Title: Task title input.
 Recurrence: Dropdown for recurrence frequency.
 Start Date and End Date: Date pickers to set task duration.
-![image](https://github.com/santhosh2003-bit/Task_Management_Application/blob/main/Screenshot%202024-10-28%20194316.png)
+![image]()
 TaskList.tsx
 This component displays a list of tasks and includes:
 
 Edit Button: Populates the form with task data for easy updates.
 Delete Button: Removes the task from the database and updates the UI.
-![image](https://github.com/santhosh2003-bit/Task_Management_Application/blob/main/Screenshot%202024-10-28%20194331.png)
-![image](https://github.com/santhosh2003-bit/Task_Management_Application/blob/main/Screenshot%202024-10-28%20194339.png)
+![image]()
+![image]()
 # Getting Started
 ## Prerequisites
 Node.js

@@ -9,6 +9,7 @@ import { deleteFunction } from "./operations";
 type Task = typeof tasks.$inferSelect;
 export default function TaskList() {
   const { task1, setTasks, setEdit, setState } = useTaskStore();
+  
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const handleUpdate = async (task: Task) => {
     setEdit(task);
@@ -22,7 +23,7 @@ export default function TaskList() {
       });
       const data: Task[] = await response.json();
       console.log(data);
-      setTasks(data[0]);
+      setTasks(data);
       console.log(task1);
       // console.log(data);
     };
@@ -33,7 +34,8 @@ export default function TaskList() {
     <div className="bg-white md:w-[28%] rounded-lg px-5 py-3 mx-9 md:mx-0 font-serif">
       <h2 className="text-center text-xl font-bold underline">To-Do List</h2>
       <ul>
-        {Array.isArray(task1) && task1.length > 0 ? (
+        {
+        Array.isArray(task1) && task1.length > 0 ? (
           task1.map((task, index) => (
             <li
               key={task.id}

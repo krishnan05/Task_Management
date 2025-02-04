@@ -21,8 +21,18 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { title, recurrence, startDate, endDate } = await req.json();
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+
+    if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+      return NextResponse.json({ error: "Invalid date format" }, { status: 400 });
+    }
+
+    // Convert to valid date format (YYYY-MM-DD)
+    const formattedStartDate = startDateObj.toISOString().split("T")[0];
+    const formattedEndDate = endDateObj.toISOString().split("T")[0];
     const updatedTask = await db.update(tasks)
-      .set({ title, recurrence, startdate: new Date(startDate), enddate: new Date(endDate) })
+      .set({ title, recurrence, startdate: formattedStartDate, enddate: formattedEndDate })
       .where(eq(tasks.id, Number(params.id)))
       .returning();
 
@@ -34,15 +44,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-
-// export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-//   try {
-//     await db.delete(tasks).where(eq(tasks.id, Number(params.id)));
-//     return NextResponse.json({ message: "Task deleted successfully" }, { status: 200 });
-//   } catch (error) {
-//     return NextResponse.json({ error: "Failed to delete task" }, { status: 500 });
-//   }
-// }
 
 export const DELETE = async (req: NextRequest, { params }: { params: { id: string } }) => {
   try {
