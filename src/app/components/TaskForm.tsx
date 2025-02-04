@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import useTaskStore from "../store/useTaskStore";
 import { tasks } from "../db/schema";
-import { start } from "repl";
+
 type Task = typeof tasks.$inferSelect;
 export default function TaskForm() {
   const [title, setTitle] = useState("");
@@ -12,20 +12,7 @@ export default function TaskForm() {
   const [endDate, setEndDate] = useState("");
   const { task1, setTasks, edit, state, setEdit } = useTaskStore();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const formatDateForInput = (dateString: string) => {
-    // console.log("Original Date String:", dateString); // Debug log
-    const date = new Date(dateString);
-    // Check if date is valid
-    if (isNaN(date.getTime())) {
-      console.error("Invalid date string:", dateString);
-      return ""; // Return empty string or handle error appropriately
-    }
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     
     e.preventDefault();

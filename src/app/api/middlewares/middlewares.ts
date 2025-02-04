@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.next(); // Allow request to proceed
   } catch (error) {
-    return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+    return NextResponse.json({ error: error }, { status: 401 });
   }
 }
 

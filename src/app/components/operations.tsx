@@ -1,5 +1,3 @@
-import useTaskStore from "../store/useTaskStore";
-import { tasks } from "../db/schema";
 
 export const deleteFunction = async (id: number) => {
   try {

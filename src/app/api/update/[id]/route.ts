@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     return NextResponse.json(task[0], { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch task" }, { status: 500 });
+    return NextResponse.json({ error: error}, { status: 500 });
   }
 }
 
@@ -42,6 +42,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     return NextResponse.json(updatedTask[0], { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: "Failed to update task" }, { status: 500 });
   }
 }

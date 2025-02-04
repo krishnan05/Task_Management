@@ -5,12 +5,14 @@ import { tasks } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = await params; 
+  
   try {
-    if (!params || !params.id) {
+    if (id) {
       return NextResponse.json({ error: "Task ID is required" }, { status: 400 });
     }
 
-    const taskId = Number(params.id);
+    const taskId = Number(id);
     if (isNaN(taskId)) {
       return NextResponse.json({ error: "Invalid task ID" }, { status: 400 });
     }
