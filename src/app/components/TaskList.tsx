@@ -9,6 +9,7 @@ import { deleteFunction } from "./operations";
 type Task = typeof tasks.$inferSelect;
 export default function TaskList() {
   const { task1, setTasks, setEdit, setState } = useTaskStore();
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   const handleUpdate = async (task: Task) => {
     setEdit(task);
     setState(true);
@@ -17,7 +18,7 @@ export default function TaskList() {
     const fetchTasks = async () => {
       const response = await fetch("api/create", {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",'Authorization': `Bearer ${user}`, },
       });
       const data: Task[] = await response.json();
       setTasks(data);

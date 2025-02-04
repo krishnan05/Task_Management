@@ -10,6 +10,7 @@ export default function TaskForm() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const { task1, setTasks, edit, state, setEdit } = useTaskStore();
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   const formatDateForInput = (dateString: string) => {
     // console.log("Original Date String:", dateString); // Debug log
     const date = new Date(dateString);
@@ -35,7 +36,7 @@ export default function TaskForm() {
       // console.log(edit);
       const response = await fetch(`/api/update?id=${edit.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",'Authorization': `Bearer ${username}` },
         body: JSON.stringify({ title, recurrence, startDate, endDate }),
       });
       if (!response.ok) {
@@ -58,7 +59,7 @@ export default function TaskForm() {
     } else {
       const response = await fetch("/api/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",'Authorization': `Bearer ${user}` },
         body: JSON.stringify({ title, recurrence, startDate, endDate }),
       });
 

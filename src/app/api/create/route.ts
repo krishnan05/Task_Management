@@ -30,14 +30,19 @@ export async function GET() {
   }
 }
 
-// POST: Create a new task (Requires user ID)
+// POST: Create a new task (Requires user name)
 export async function POST(req: NextRequest) {
   try {
-    const { title, recurrence, startdate, enddate, userId } = await req.json();
-    // Ensure user exists
-    const userExists = await db.select().from(users).where(eq(users.id, userId));
+    console.log(req);
+    const { title, recurrence, startdate, enddate, } = await req.json();
+    const username = req.headers.get('Authorization')?.split(' ')[1]; // Extract username from Authorization header
+
+    if (!username) {
+      return NextResponse.json({ error: "Username is required" }, { status: 400 });
+    }
+
+    const userExists = await db.select().from(users).where(eq(users.name, username));
     if (!userExists.length) {
-      console.log(error);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
@@ -46,11 +51,12 @@ export async function POST(req: NextRequest) {
       recurrence,
       startdate: new Date(startdate),
       enddate: new Date(enddate),
-      userId,
+      userId: userExists[0].id,
     }).returning();
 
     return NextResponse.json(newTask[0], { status: 201 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: "Failed to create task" }, { status: 500 });
   }
 }
