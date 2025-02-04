@@ -35,7 +35,7 @@ export default function TaskForm() {
     }
     if (edit) {
       // console.log(edit);
-      const response = await fetch(`/api/update?id=${edit.id}`, {
+      const response = await fetch(`/api/update/${edit.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json",'Authorization': `Bearer ${user}` },
         body: JSON.stringify({ title, recurrence, startDate, endDate }),
@@ -89,10 +89,8 @@ if (edit) {
   setRecurrence(edit.recurrence ?? ""); // Default to an empty string if null
 
   // Ensure we are using the date format for input fields
-  const defaultDate = new Date();
-  const dDate = defaultDate.toISOString().split("T")[0];
-  setStartDate(formatDateForInput(edit.startDate ?? dDate)); // Default to today if null
-  setEndDate(formatDateForInput(edit.endDate ?? new Date())); // Default to today if null
+  // setStartDate(formatDateForInput(edit.startdate ?? new Date())); // Default to today if null
+  // setEndDate(formatDateForInput(edit.enddate ?? new Date())); // Default to today if null
 }
 
   }, [edit]);
