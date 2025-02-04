@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, text,date, timestamp, integer } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -11,7 +11,7 @@ export const tasks = pgTable("tasks", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   recurrence: text("recurrence"),
-  startdate: timestamp("startdate").notNull(),
-  enddate: timestamp("enddate").notNull(),
+  startdate: date("startdate").notNull(),
+  enddate: date("enddate").notNull(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
 });

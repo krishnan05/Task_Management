@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import useTaskStore from "../store/useTaskStore";
 import { tasks } from "../db/schema";
+import { start } from "repl";
 type Task = typeof tasks.$inferSelect;
 export default function TaskForm() {
   const [title, setTitle] = useState("");
@@ -14,7 +15,6 @@ export default function TaskForm() {
   const formatDateForInput = (dateString: string) => {
     // console.log("Original Date String:", dateString); // Debug log
     const date = new Date(dateString);
-
     // Check if date is valid
     if (isNaN(date.getTime())) {
       console.error("Invalid date string:", dateString);
@@ -27,6 +27,7 @@ export default function TaskForm() {
     return `${year}-${month}-${day}`;
   };
   const handleSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault();
     if (!startDate || !endDate) {
       alert("Start and end dates are required");
@@ -36,7 +37,7 @@ export default function TaskForm() {
       // console.log(edit);
       const response = await fetch(`/api/update?id=${edit.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json",'Authorization': `Bearer ${username}` },
+        headers: { "Content-Type": "application/json",'Authorization': `Bearer ${user}` },
         body: JSON.stringify({ title, recurrence, startDate, endDate }),
       });
       if (!response.ok) {
@@ -47,7 +48,6 @@ export default function TaskForm() {
       const updatedTask: Task = await response.json();
       alert("Task updated");
       // console.log(updatedTask);
-      // Update the tasks list with the modified task
       setTasks(
         task1.map((task) => (task.id === updatedTask.id ? updatedTask : task))
       );
@@ -57,12 +57,13 @@ export default function TaskForm() {
       setStartDate("");
       setEndDate("");
     } else {
+      console.log(endDate);
       const response = await fetch("/api/create", {
         method: "POST",
         headers: { "Content-Type": "application/json",'Authorization': `Bearer ${user}` },
         body: JSON.stringify({ title, recurrence, startDate, endDate }),
       });
-
+      
       if (!response.ok) {
         alert("Failed to create task");
         return;

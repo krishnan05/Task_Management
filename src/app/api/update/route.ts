@@ -20,9 +20,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const { title, recurrence, startdate, enddate } = await req.json();
+    const { title, recurrence, startDate, endDate } = await req.json();
     const updatedTask = await db.update(tasks)
-      .set({ title, recurrence, startdate: new Date(startdate), enddate: new Date(enddate) })
+      .set({ title, recurrence, startdate: new Date(startDate), enddate: new Date(endDate) })
       .where(eq(tasks.id, Number(params.id)))
       .returning();
 

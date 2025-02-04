@@ -21,7 +21,9 @@ export default function TaskList() {
         headers: { "Content-Type": "application/json",'Authorization': `Bearer ${user}`, },
       });
       const data: Task[] = await response.json();
-      setTasks(data);
+      console.log(data);
+      setTasks(data[0]);
+      console.log(task1);
       // console.log(data);
     };
     fetchTasks();
