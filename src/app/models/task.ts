@@ -3,9 +3,25 @@ import { tasks } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { users } from "../db/schema";
 
-export async function createTask(title: string, recurrence: string, startdate: Date, enddate: Date, userId: number) {
-  return await db.insert(tasks).values({ title, recurrence, startdate, enddate, userId }).returning();
+export async function createTask(
+  title: string,
+  recurrence: string,
+  startdate: Date,
+  enddate: Date,
+  userId: number
+) {
+  return await db
+    .insert(tasks)
+    .values({
+      title,
+      recurrence,
+      startdate: startdate.toISOString().split("T")[0], // Converts Date -> YYYY-MM-DD
+      enddate: enddate.toISOString().split("T")[0],
+      userId,
+    })
+    .returning();
 }
+
 
 export async function getTasks() {
   return await db.select().from(tasks);

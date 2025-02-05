@@ -5,9 +5,10 @@ import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
 // GET: Fetch a specific task
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
-    const { id } = await params;  // Await params here
+   
     const task = await db.select().from(tasks).where(eq(tasks.id, Number(id)));
 
     if (!task.length) return NextResponse.json({ error: "Task not found" }, { status: 404 });
@@ -19,9 +20,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PUT: Update a specific task
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
-    const { id } = await params;  // Await params here
     const { title, recurrence, startDate, endDate } = await req.json();
     const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);

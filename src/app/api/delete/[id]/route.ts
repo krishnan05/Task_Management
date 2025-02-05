@@ -4,11 +4,11 @@ import { db } from "../../../db/db";
 import { tasks } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = await params; 
-  
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
   try {
-    if (id) {
+    if (!id) {
       return NextResponse.json({ error: "Task ID is required" }, { status: 400 });
     }
 
